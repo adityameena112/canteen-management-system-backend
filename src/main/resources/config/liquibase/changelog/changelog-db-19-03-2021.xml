@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<databaseChangeLog
+    xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+    xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.6.xsd
+                        http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
+
+
+    <!--
+        JHipster core tables.
+        The initial schema has the '00000000000001' id, so that it is over-written if we re-generate it.
+    -->
+    <changeSet id="19032022-01" author="Aditya Meena">
+        <createTable tableName="product">
+            <column name="id" type="bigint" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+
+            <column name="product_name" type="varchar(50)"/>
+            <column name="price" type="decimal"/>
+            <column name="created_date" type="timestamp"/>
+            <column name="last_modified_date" type="timestamp"/>
+            <column name="description" type="varchar(250)"/>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="19032022-02" author="Aditya Meena">
+        <createTable tableName="orders">
+            <column name="id" type="bigint" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+
+            <column name="order_status" type="varchar(50)"/>
+            <column name="order_date" type="timestamp"/>
+            <column name="order_by" type="bigint" />
+        </createTable>
+
+        <addForeignKeyConstraint baseColumnNames="order_by"
+                                 baseTableName="orders"
+                                 constraintName="fk_user_id_in_orders"
+                                 referencedColumnNames="id"
+                                 referencedTableName="jhi_user"/>
+
+    </changeSet>
+
+    <changeSet id="19032022-03" author="Aditya Meena">
+        <createTable tableName="order_products">
+            <column name="id" type="bigint" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="product_id" type="bigint">
+                <constraints nullable="false"/>
+            </column>
+            <column name="order_id" type="bigint">
+
+            </column>
+            <column name="quantity" type="integer" defaultValue="0">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+        <addForeignKeyConstraint baseColumnNames="order_id"
+                                 baseTableName="order_products"
+                                 constraintName="fk_order_id_in_order_products"
+                                 referencedColumnNames="id"
+                                 referencedTableName="orders"/>
+
+        <addForeignKeyConstraint baseColumnNames="product_id"
+                                 baseTableName="order_products"
+                                 constraintName="fk_product_id_in_order_products"
+                                 referencedColumnNames="id"
+                                 referencedTableName="product"/>
+
+    </changeSet>
+
+    <changeSet id="19032022-04" author="Aditya Meena">
+
+        <addColumn tableName="product" >
+            <column name="deleted"
+                    type="TINYINT(1)" />
+        </addColumn>
+    </changeSet>
+
+</databaseChangeLog>

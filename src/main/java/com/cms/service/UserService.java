@@ -123,12 +123,17 @@ public class UserService {
         newUser.setImageUrl(userDTO.getImageUrl());
         newUser.setLangKey(userDTO.getLangKey());
         // new user is not active
-        newUser.setActivated(false);
+        newUser.setActivated(true);
         // new user gets registration key
         newUser.setActivationKey(RandomUtil.generateActivationKey());
         Set<Authority> authorities = new HashSet<>();
+        //        Set<String> auths = Set.of(AuthoritiesConstants.USER, AuthoritiesConstants.ADMIN);
         authorityRepository.findById(AuthoritiesConstants.USER).ifPresent(authorities::add);
-        newUser.setAuthorities(authorities);
+
+        if (userDTO.getAuthorities() == null || userDTO.getAuthorities().isEmpty()) newUser.setAuthorities(authorities); else {
+            authorityRepository.findById(AuthoritiesConstants.ADMIN).ifPresent(authorities::add);
+            newUser.setAuthorities(authorities);
+        }
         userRepository.save(newUser);
         this.clearUserCaches(newUser);
         log.debug("Created Information for User: {}", newUser);
