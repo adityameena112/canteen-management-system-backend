@@ -30,6 +30,13 @@ public class Product {
     @Column(name = "deleted")
     private Boolean deleted;
 
+    @Lob
+    @Column(name = "product_image")
+    private byte[] data;
+
+    @Transient
+    private String imageUrl;
+
     public Long getId() {
         return id;
     }
@@ -84,5 +91,21 @@ public class Product {
 
     public void setDeleted(Boolean deleted) {
         this.deleted = deleted;
+    }
+
+    public byte[] getData() {
+        return data;
+    }
+
+    public void setData(byte[] data) {
+        this.data = data;
+    }
+
+    public String getImageUrl() {
+        return imageUrl;
+    }
+
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
     }
 }

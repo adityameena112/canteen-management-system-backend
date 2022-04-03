@@ -131,7 +131,7 @@ public class UserService {
         authorityRepository.findById(AuthoritiesConstants.USER).ifPresent(authorities::add);
 
         if (userDTO.getAuthorities() == null || userDTO.getAuthorities().isEmpty()) newUser.setAuthorities(authorities); else {
-            authorityRepository.findById(AuthoritiesConstants.ADMIN).ifPresent(authorities::add);
+            authorityRepository.findById(AuthoritiesConstants.STAFF).ifPresent(authorities::add);
             newUser.setAuthorities(authorities);
         }
         userRepository.save(newUser);

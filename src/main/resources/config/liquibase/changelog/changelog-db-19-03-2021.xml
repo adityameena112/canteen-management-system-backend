@@ -82,4 +82,20 @@
         </addColumn>
     </changeSet>
 
+    <changeSet id="19032022-05" author="Aditya Meena">
+        <insert
+                 tableName="jhi_authority">
+            <column  name="name"  value="ROLE_STAFF"/>
+        </insert>
+    </changeSet>
+
+    <changeSet id="19032022-06" author="Aditya Meena">
+
+        <addColumn tableName="product" >
+            <column name="product_image"
+                    type="LONGBLOB" />
+        </addColumn>
+    </changeSet>
+
+
 </databaseChangeLog>

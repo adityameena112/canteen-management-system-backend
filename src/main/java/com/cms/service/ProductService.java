@@ -7,6 +7,7 @@ import java.util.List;
 import javax.validation.ValidationException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 @Service
 public class ProductService {
@@ -15,6 +16,19 @@ public class ProductService {
     private ProductRepository productRepository;
 
     public List<Product> getAllProduct() {
+        List<Product> products = productRepository.getAllProduct();
+        products
+            .stream()
+            .forEach(product -> {
+                String imageUrl = ServletUriComponentsBuilder
+                    .fromCurrentContextPath()
+                    .path("/product-image/")
+                    .path(product.getId().toString())
+                    .toUriString();
+
+                product.setImageUrl(imageUrl);
+            });
+
         return productRepository.getAllProduct();
     }
 
