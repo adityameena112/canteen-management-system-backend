@@ -32,7 +32,7 @@ public class Product {
 
     @Lob
     @Column(name = "product_image")
-    private byte[] data;
+    private Byte[] data;
 
     @Transient
     private String imageUrl;
@@ -93,11 +93,11 @@ public class Product {
         this.deleted = deleted;
     }
 
-    public byte[] getData() {
+    public Byte[] getData() {
         return data;
     }
 
-    public void setData(byte[] data) {
+    public void setData(Byte[] data) {
         this.data = data;
     }
 
