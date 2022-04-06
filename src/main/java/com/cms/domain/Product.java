@@ -1,5 +1,6 @@
 package com.cms.domain;
 
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import java.time.LocalDateTime;
 import javax.persistence.*;
 
@@ -35,6 +36,7 @@ public class Product {
     private Byte[] data;
 
     @Transient
+    @JsonSerialize
     private String imageUrl;
 
     public Long getId() {

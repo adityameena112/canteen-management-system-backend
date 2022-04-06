@@ -22,14 +22,14 @@ public class ProductService {
             .forEach(product -> {
                 String imageUrl = ServletUriComponentsBuilder
                     .fromCurrentContextPath()
-                    .path("/product-image/")
-                    .path(product.getId().toString())
+                    .path("/product-image")
+                    .queryParam("id", product.getId())
                     .toUriString();
 
                 product.setImageUrl(imageUrl);
             });
 
-        return productRepository.getAllProduct();
+        return products;
     }
 
     public Product saveProduct(Product product) {
