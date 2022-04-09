@@ -42,7 +42,7 @@ public class AttachmentController {
     }
 
     @PostMapping("/upload")
-    public String uploadFile(@PathParam("id") Long id, @RequestParam("file") MultipartFile file) throws IOException {
+    public String uploadFile(@RequestParam("id") Long id, @RequestParam("file") MultipartFile file) throws IOException {
         Product product = productRepository.findById(id).orElseThrow(() -> new RuntimeException("product not found"));
 
         product.setData(toObjects(file.getBytes()));

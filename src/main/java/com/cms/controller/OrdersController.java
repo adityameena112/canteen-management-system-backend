@@ -4,7 +4,9 @@ import com.cms.domain.OrderStatus;
 import com.cms.domain.Orders;
 import com.cms.service.OrdersService;
 import com.cms.service.dto.OrdersDto;
+import com.cms.service.dto.SalesDto;
 import java.util.List;
+import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -39,5 +41,10 @@ public class OrdersController {
     @GetMapping("/get-order-status")
     public OrderStatus[] getOrderStatusTypes() {
         return ordersService.getOrderStatus();
+    }
+
+    @GetMapping("/get-product-sales")
+    public List<SalesDto> getProductSales() {
+        return ordersService.getProductSales();
     }
 }

@@ -39,6 +39,9 @@ public class Product {
     @JsonSerialize
     private String imageUrl;
 
+    @Column(name = "remaining_quantity")
+    private Integer remainingQuantity;
+
     public Long getId() {
         return id;
     }
@@ -109,5 +112,13 @@ public class Product {
 
     public void setImageUrl(String imageUrl) {
         this.imageUrl = imageUrl;
+    }
+
+    public Integer getRemainingQuantity() {
+        return remainingQuantity;
+    }
+
+    public void setRemainingQuantity(Integer remainingQuantity) {
+        this.remainingQuantity = remainingQuantity;
     }
 }

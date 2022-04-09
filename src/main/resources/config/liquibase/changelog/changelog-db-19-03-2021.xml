@@ -97,5 +97,13 @@
         </addColumn>
     </changeSet>
 
+    <changeSet id="19032022-07" author="Aditya Meena">
+
+        <addColumn tableName="product" >
+            <column name="remaining_quantity"
+                    type="INT" />
+        </addColumn>
+    </changeSet>
+
 
 </databaseChangeLog>
