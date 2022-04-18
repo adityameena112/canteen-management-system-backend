@@ -93,7 +93,10 @@ public class OrdersService {
         }
 
         body += "</table>";
-        body += "<h3>Grand Total: " + grandTotal + "</h3>";
+        body += "<h3>Total: " + grandTotal + "</h3>";
+        body += "<h3>SGST: " + (grandTotal / 100.0) * 2.5 + "</h3>";
+        body += "<h3>GST: " + (grandTotal / 100.0) * 2.5 + "</h3>";
+        body += "<h3>Total: " + (grandTotal + ((grandTotal / 100.0) * 2.5) * 2) + "</h3>";
         customMailSenderUtility.sendMail(user.getEmail(), "Team Pranzo", body, new HashMap<>(), null, null);
 
         return ordersDto;
