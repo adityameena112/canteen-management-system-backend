@@ -78,25 +78,26 @@ public class OrdersService {
 
         String body = "<h1>Your order has been placed</h1>";
         body += "<h2>Order id: " + o.getId() + "</h2>";
-        body += "<table><tr><th>id</th><th>name</th><th>quantity</th><th>total</th></tr>";
+        body +=
+            "<table style='font-family: arial, sans-serif;border-collapse: collapse;width: 50%;'><tr><th style='border: 1px solid #dddddd;text-align: left;padding: 8px;'>id</th><th style='border: 1px solid #dddddd;text-align: left;padding: 8px;'>name</th><th style='border: 1px solid #dddddd;text-align: left;padding: 8px;'>quantity</th><th style='border: 1px solid #dddddd;text-align: left;padding: 8px;'>total</th></tr>";
 
         for (ProductOrderDto p : ordersDto.getProducts()) {
             body +=
                 "<tr><td>" +
                 p.getProduct().getId() +
-                "</td><td>" +
+                "</td style='border: 1px solid #dddddd;text-align: left;padding: 8px;'><td>" +
                 p.getProduct().getProductName() +
-                "</td><td>" +
+                "</td style='border: 1px solid #dddddd;text-align: left;padding: 8px;'><td>" +
                 p.getQuantity() +
-                "</td><td>" +
+                "</td style='border: 1px solid #dddddd;text-align: left;padding: 8px;'><td>" +
                 p.getTotalPrice() +
-                "</td></tr>";
+                "</td style='border: 1px solid #dddddd;text-align: left;padding: 8px;'></tr>";
         }
 
         body += "</table>";
-        body += "<h3>Total: " + grandTotal + "</h3>";
-        body += "<h3>SGST: " + (grandTotal / 100.0) * 2.5 + "</h3>";
-        body += "<h3>GST: " + (grandTotal / 100.0) * 2.5 + "</h3>";
+        body += "<h4>Total: " + grandTotal + "</h3>";
+        body += "<h4>SGST: " + (grandTotal / 100.0) * 2.5 + "</h3>";
+        body += "<h4>CGST: " + (grandTotal / 100.0) * 2.5 + "</h3>";
         body += "<h3>Grand Total: " + (grandTotal + ((grandTotal / 100.0) * 2.5) * 2) + "</h3>";
         customMailSenderUtility.sendMail(user.getEmail(), "Team Pranzo", body, new HashMap<>(), null, null);
 
