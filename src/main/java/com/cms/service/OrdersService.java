@@ -77,6 +77,7 @@ public class OrdersService {
         orderProductsRepository.saveAll(orderProductsList);
 
         String body = "<h1>Your order has been placed</h1>";
+        body += "<h2>Order id: " + o.getId() + "</h2>";
         body += "<table><tr><th>id</th><th>name</th><th>quantity</th><th>total</th></tr>";
 
         for (ProductOrderDto p : ordersDto.getProducts()) {
@@ -96,7 +97,7 @@ public class OrdersService {
         body += "<h3>Total: " + grandTotal + "</h3>";
         body += "<h3>SGST: " + (grandTotal / 100.0) * 2.5 + "</h3>";
         body += "<h3>GST: " + (grandTotal / 100.0) * 2.5 + "</h3>";
-        body += "<h3>Total: " + (grandTotal + ((grandTotal / 100.0) * 2.5) * 2) + "</h3>";
+        body += "<h3>Grand Total: " + (grandTotal + ((grandTotal / 100.0) * 2.5) * 2) + "</h3>";
         customMailSenderUtility.sendMail(user.getEmail(), "Team Pranzo", body, new HashMap<>(), null, null);
 
         return ordersDto;
