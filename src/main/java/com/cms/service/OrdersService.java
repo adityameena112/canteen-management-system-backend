@@ -99,6 +99,8 @@ public class OrdersService {
         body += "<h4>SGST: " + (grandTotal / 100.0) * 2.5 + "</h3>";
         body += "<h4>CGST: " + (grandTotal / 100.0) * 2.5 + "</h3>";
         body += "<h3>Grand Total: " + (grandTotal + ((grandTotal / 100.0) * 2.5) * 2) + "</h3>";
+        body += "<img style='width: 200px;height: 200px;' src='https://i.postimg.cc/6QdFnb41/Whats-App-Image-2022-04-17-at-10-57-54-AM.jpg' border='0' alt='Whats-App-Image-2022-04-17-at-10-57-54-AM'/>";
+        body += "<h3>Kindly scan this QRCode to make payment</h3>";
         customMailSenderUtility.sendMail(user.getEmail(), "Team Pranzo", body, new HashMap<>(), null, null);
 
         return ordersDto;
