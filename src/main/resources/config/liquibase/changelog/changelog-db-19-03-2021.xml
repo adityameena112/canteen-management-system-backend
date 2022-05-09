@@ -105,5 +105,17 @@
         </addColumn>
     </changeSet>
 
+    <changeSet id="19032022-08" author="Aditya Meena">
+
+        <addColumn tableName="orders" >
+            <column name="payment_type"
+                    type="varchar(20)" />
+        </addColumn>
+
+        <addColumn tableName="orders" >
+            <column name="payment_status"
+                    type="varchar(20)" />
+        </addColumn>
+    </changeSet>
 
 </databaseChangeLog>

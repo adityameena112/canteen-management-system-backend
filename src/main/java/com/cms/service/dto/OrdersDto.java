@@ -1,6 +1,8 @@
 package com.cms.service.dto;
 
 import com.cms.domain.OrderStatus;
+import com.cms.domain.PaymentStatus;
+import com.cms.domain.PaymentType;
 import com.cms.domain.User;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -12,6 +14,24 @@ public class OrdersDto {
     private OrderStatus orderStatus;
     private LocalDateTime orderDate;
     private List<ProductOrderDto> products;
+    private PaymentStatus paymentStatus;
+    private PaymentType paymentType;
+
+    public PaymentStatus getPaymentStatus() {
+        return paymentStatus;
+    }
+
+    public void setPaymentStatus(PaymentStatus paymentStatus) {
+        this.paymentStatus = paymentStatus;
+    }
+
+    public PaymentType getPaymentType() {
+        return paymentType;
+    }
+
+    public void setPaymentType(PaymentType paymentType) {
+        this.paymentType = paymentType;
+    }
 
     public Long getId() {
         return id;

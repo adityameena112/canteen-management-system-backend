@@ -26,6 +26,12 @@ public class Orders {
     @OneToMany(mappedBy = "order", fetch = FetchType.EAGER)
     private List<OrderProducts> orderProducts;
 
+    @Column(name = "payment_type")
+    private PaymentType paymentType;
+
+    @Column(name = "payment_status")
+    private PaymentStatus paymentStatus;
+
     public Long getId() {
         return id;
     }
@@ -64,5 +70,21 @@ public class Orders {
 
     public void setOrderProducts(List<OrderProducts> orderProducts) {
         this.orderProducts = orderProducts;
+    }
+
+    public PaymentType getPaymentType() {
+        return paymentType;
+    }
+
+    public void setPaymentType(PaymentType paymentType) {
+        this.paymentType = paymentType;
+    }
+
+    public PaymentStatus getPaymentStatus() {
+        return paymentStatus;
+    }
+
+    public void setPaymentStatus(PaymentStatus paymentStatus) {
+        this.paymentStatus = paymentStatus;
     }
 }
