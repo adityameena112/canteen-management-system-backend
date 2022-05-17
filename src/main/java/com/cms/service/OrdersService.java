@@ -1,9 +1,6 @@
 package com.cms.service;
 
-import com.cms.domain.OrderProducts;
-import com.cms.domain.OrderStatus;
-import com.cms.domain.Orders;
-import com.cms.domain.Product;
+import com.cms.domain.*;
 import com.cms.repository.OrderProductsRepository;
 import com.cms.repository.OrderRepository;
 import com.cms.repository.ProductRepository;
@@ -13,10 +10,7 @@ import com.cms.service.dto.ProductOrderDto;
 import com.cms.service.dto.SalesDto;
 import com.cms.utility.CustomMailSenderUtility;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
@@ -52,6 +46,13 @@ public class OrdersService {
         order.setOrderStatus(OrderStatus.BOOKED);
         order.setOrderBy(user);
         order.setOrderDate(LocalDateTime.now());
+        order.setPaymentType(ordersDto.getPaymentType());
+
+        if (Objects.equals(ordersDto.getPaymentType(), PaymentType.CASH)) {
+            order.setPaymentStatus(PaymentStatus.PENDING);
+        } else {
+            order.setPaymentStatus(PaymentStatus.COMPLETE);
+        }
         Orders o = orderRepository.save(order);
 
         List<OrderProducts> orderProductsList = new ArrayList<>();
@@ -68,11 +69,7 @@ public class OrdersService {
                 orderProductsList.add(orderProducts);
             });
 
-        Double grandTotal = ordersDto
-            .getProducts()
-            .stream()
-            .map(x -> x.getQuantity() * x.getProduct().getPrice())
-            .reduce(0.0, (left, right) -> left + right);
+        Double grandTotal = ordersDto.getProducts().stream().map(x -> x.getQuantity() * x.getProduct().getPrice()).reduce(0.0, Double::sum);
 
         orderProductsRepository.saveAll(orderProductsList);
 
@@ -96,8 +93,8 @@ public class OrdersService {
 
         body += "</table>";
         body += "<h4>Total: " + grandTotal + "</h3>";
-        body += "<h4>SGST: " + (grandTotal / 100.0) * 2.5 + "</h3>";
-        body += "<h4>CGST: " + (grandTotal / 100.0) * 2.5 + "</h3>";
+        body += "<h4>SGST 2.5%: " + (grandTotal / 100.0) * 2.5 + "</h3>";
+        body += "<h4>CGST 2.5%: " + (grandTotal / 100.0) * 2.5 + "</h3>";
         body += "<h3>Grand Total: " + (grandTotal + ((grandTotal / 100.0) * 2.5) * 2) + "</h3>";
         customMailSenderUtility.sendMail(user.getEmail(), "Team Pranzo", body, new HashMap<>(), null, null);
 
@@ -120,6 +117,8 @@ public class OrdersService {
                 ordersDto.setOrderBy(x.getOrderBy());
                 ordersDto.setOrderDate(x.getOrderDate());
                 ordersDto.setOrderStatus(x.getOrderStatus());
+                ordersDto.setPaymentStatus(x.getPaymentStatus());
+                ordersDto.setPaymentType(x.getPaymentType());
                 List<ProductOrderDto> productOrderDtos = x
                     .getOrderProducts()
                     .stream()
@@ -150,6 +149,8 @@ public class OrdersService {
                 ordersDto.setOrderBy(x.getOrderBy());
                 ordersDto.setOrderDate(x.getOrderDate());
                 ordersDto.setOrderStatus(x.getOrderStatus());
+                ordersDto.setPaymentStatus(x.getPaymentStatus());
+                ordersDto.setPaymentType(x.getPaymentType());
                 List<ProductOrderDto> productOrderDtos = x
                     .getOrderProducts()
                     .stream()
@@ -173,6 +174,9 @@ public class OrdersService {
 
         if (order != null) {
             order.setOrderStatus(orderStatus);
+            if (Objects.equals(orderStatus, OrderStatus.COMPLETED) && Objects.equals(order.getPaymentStatus(), PaymentStatus.PENDING)) {
+                order.setPaymentStatus(PaymentStatus.COMPLETE);
+            }
             orderRepository.save(order);
         }
         //        return order;
